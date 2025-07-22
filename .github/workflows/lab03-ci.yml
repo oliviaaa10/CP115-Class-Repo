@@ -24,40 +24,40 @@ jobs:
       - name: Verify lab-03-2.fprg exists
         run: test -f lab-03-2.fprg
       - name: Test Scenario 1
-        run: python test.py --script lab_03_2.py
+        run: python test.py --script lab-03-2.py
 
       # Scenario 2
       - name: Verify lab-03-3.fprg exists
         run: test -f lab-03-3.fprg
       - name: Test Scenario 2
-        run: python test.py --script lab_03_3.py
+        run: python test.py --script lab-03-3.py
 
       # Scenario 3
       - name: Verify lab-03-4.fprg exists
         run: test -f lab-03-4.fprg
       - name: Test Scenario 3
-        run: python test.py --script lab_03_4.py
+        run: python test.py --script lab-03-4.py
 
       # Scenario 4
       - name: Verify lab-03-5.fprg exists
         run: test -f lab-03-5.fprg
       - name: Test Scenario 4
-        run: python test.py --script lab_03_5.py
+        run: python test.py --script lab-03-5.py
 
       # Scenario 5
       - name: Verify lab-03-6.fprg exists
         run: test -f lab-03-6.fprg
       - name: Test Scenario 5
-        run: python test.py --script lab_03_6.py
+        run: python test.py --script lab-03-6.py
 
       # Scenario 6
       - name: Verify lab-03-7.fprg exists
         run: test -f lab-03-7.fprg
       - name: Test Scenario 6
-        run: python test.py --script lab_03_7.py
+        run: python test.py --script lab-03-7.py
 
       # Scenario 7
       - name: Verify lab-03-8.fprg exists
         run: test -f lab-03-8.fprg
       - name: Test Scenario 7
-        run: python test.py --script lab_03_8.py
+        run: python test.py --script lab-03-8.py
