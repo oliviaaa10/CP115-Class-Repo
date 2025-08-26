@@ -1,0 +1,5 @@
+import employee_data
+
+employee_data.basic_salary
+employee_data.overtime_hours
+employee_data.overtime_rate
