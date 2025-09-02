@@ -3,7 +3,7 @@ base_salary = float(input())
 overtime_hours = int(input())
 tax_status = input()
 
-# TODO your code here
+if tax_status = Single 
 
 
 print(employee_name)

@@ -1,5 +1,5 @@
 # BMI classification - use if-elif-else chain
-weight = 85  # kg  
+weight = 60  # kg  
 height = 1.75  # meters
 bmi = weight / (height * height)
 
