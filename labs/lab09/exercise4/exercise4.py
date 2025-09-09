@@ -1,7 +1,7 @@
 current_reading = int(input())
 previous_reading = int(input())
 
-# TODO your code here
+# TODO: Your code here
 
 
 print(consumption)

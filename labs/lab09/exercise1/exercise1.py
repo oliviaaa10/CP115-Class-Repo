@@ -1,4 +1,4 @@
-# Student Classification System
+# Students Classification System
 # Get student information
 student_name = input("Enter student name: ")
 gpa = float(input("Enter GPA (0.0-4.0): "))
