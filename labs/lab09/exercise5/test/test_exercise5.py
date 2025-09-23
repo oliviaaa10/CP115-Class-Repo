@@ -45,7 +45,7 @@ def test_restaurant_billing(exercise_path, main_course, drink, dessert, age, exp
     
     final_bill = extract_final_bill(output)
     
-    assert abs(final_bill - expected_bill) < 0.01, f"Expected final bill {expected_bill} but got {final_bill}"
+    assert abs(final_bill - expected_bill) < 0.01, f"\nInput: {main_course}, {drink}, {dessert}, Age={age}\nExpected: {expected_bill}, Got: {final_bill}"
 
 def test_service_charge_calculation(exercise_path):
     """Test that 10% service charge is applied correctly"""
@@ -56,7 +56,7 @@ def test_service_charge_calculation(exercise_path):
     base_cost = 10 + 2 + 4  # 16
     expected_with_service = base_cost * 1.1  # 17.60
     
-    assert abs(final_bill - expected_with_service) < 0.01, f"Expected {expected_with_service} but got {final_bill}"
+    assert abs(final_bill - expected_with_service) < 0.01, f"\nInput: Chicken, Soft Drink, Ice Cream, Age=25\nExpected: {expected_with_service}, Got: {final_bill}"
 
 def test_age_discounts(exercise_path):
     """Test age-based discounts"""
@@ -65,11 +65,11 @@ def test_age_discounts(exercise_path):
     output = run_exercise(exercise_path, inputs)
     final_bill = extract_final_bill(output)
     expected = (10 + 2 + 4) * 1.1 * 0.85  # 15% off
-    assert abs(final_bill - expected) < 0.01, "Senior discount should apply"
+    assert abs(final_bill - expected) < 0.01, f"\nInput: Chicken, Soft Drink, Ice Cream, Age=65\nExpected: {expected}, Got: {final_bill}"
     
     # Student discount
     inputs = "Chicken\nSoft Drink\nIce Cream\n17\n"
     output = run_exercise(exercise_path, inputs)
     final_bill = extract_final_bill(output)
     expected = (10 + 2 + 4) * 1.1 * 0.90  # 10% off
-    assert abs(final_bill - expected) < 0.01, "Student discount should apply"
+    assert abs(final_bill - expected) < 0.01, f"\nInput: Chicken, Soft Drink, Ice Cream, Age=17\nExpected: {expected}, Got: {final_bill}"

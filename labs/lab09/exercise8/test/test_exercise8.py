@@ -54,7 +54,7 @@ def test_loan_approval_decisions(exercise_path, income, employment, credit, year
     
     approval_status = extract_approval_status(output)
     
-    assert approval_status == expected_status, f"Expected {expected_status} but got {approval_status}"
+    assert approval_status == expected_status, f"\nInput: Income={income}, Employment={employment}, Credit={credit}, Years={years}\nExpected: {expected_status}, Got: {approval_status}"
 
 def test_income_boundary(exercise_path):
     """Test income requirement at boundary (RM3000)"""
@@ -62,10 +62,10 @@ def test_income_boundary(exercise_path):
     inputs = "3000\npermanent\nexcellent\n3\n"
     output = run_exercise(exercise_path, inputs)
     status = extract_approval_status(output)
-    assert status == "Approved", "Income of exactly RM3000 should be approved"
+    assert status == "Approved", f"\nInput: Income=3000, Employment=permanent, Credit=excellent, Years=3\nExpected: Approved, Got: {status}"
     
     # Below RM3000 should not meet requirement
     inputs = "2999\npermanent\nexcellent\n3\n"
     output = run_exercise(exercise_path, inputs)
     status = extract_approval_status(output)
-    assert status == "Conditionally Approved", "Income below RM3000 should be conditionally approved"
+    assert status == "Conditionally Approved", f"\nInput: Income=2999, Employment=permanent, Credit=excellent, Years=3\nExpected: Conditionally Approved, Got: {status}"

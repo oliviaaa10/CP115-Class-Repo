@@ -36,8 +36,8 @@ def extract_overtime_pay(output):
 @pytest.mark.parametrize("position,overtime_hours,is_weekend,expected_pay", [
     ("Manager", 5, "No", 225.0),    # 5 * 30 * 1.5 = 225
     ("Supervisor", 10, "No", 320.0), # (8 * 20 * 1.5) + (2 * 20 * 2.0) = 240 + 80 = 320
-    ("Staff", 5, "Yes", 165.0),    # (5 * 15 * 1.5) + (5 * 5) = 112.5 + 25 = 137.5
-    ("Intern", 12, "No", 208.0),   # (8 * 8 * 1.5) + (4 * 8 * 2.0) = 96 + 64 = 160
+    ("Staff", 5, "Yes", 137.5),    # (5 * 15 * 1.5) + (5 * 5) = 112.5 + 25 = 137.5
+    ("Intern", 12, "No", 160.0),   # (8 * 8 * 1.5) + (4 * 8 * 2.0) = 96 + 64 = 160
 ])
 def test_overtime_calculations(exercise_path, position, overtime_hours, is_weekend, expected_pay):
     """Test overtime pay calculations for different positions"""
@@ -46,7 +46,7 @@ def test_overtime_calculations(exercise_path, position, overtime_hours, is_weeke
     
     overtime_pay = extract_overtime_pay(output)
     
-    assert abs(overtime_pay - expected_pay) < 0.01, f"Expected overtime pay {expected_pay} but got {overtime_pay}"
+    assert abs(overtime_pay - expected_pay) < 0.01, f"\nInput: {position}, {overtime_hours}hrs, Weekend={is_weekend}\nExpected: {expected_pay}, Got: {overtime_pay}"
 
 def test_first_8_hours_overtime_rate(exercise_path):
     """Test that first 8 hours of overtime are paid at 1.5x rate"""
@@ -56,7 +56,7 @@ def test_first_8_hours_overtime_rate(exercise_path):
     overtime_pay = extract_overtime_pay(output)
     expected_pay = 8 * 15 * 1.5  # 8 hours at 1.5x rate = 180
     
-    assert abs(overtime_pay - expected_pay) < 0.01, f"Expected {expected_pay} but got {overtime_pay}"
+    assert abs(overtime_pay - expected_pay) < 0.01, f"\nInput: Staff, 8hrs, Weekend=No\nExpected: {expected_pay}, Got: {overtime_pay}"
 
 def test_weekend_bonus(exercise_path):
     """Test weekend bonus of RM5/hour"""
@@ -68,4 +68,4 @@ def test_weekend_bonus(exercise_path):
     weekend_bonus = 5 * 5  # 25
     expected_pay = base_overtime + weekend_bonus  # 137.5
     
-    assert abs(overtime_pay - expected_pay) < 0.01, f"Expected {expected_pay} but got {overtime_pay}"
+    assert abs(overtime_pay - expected_pay) < 0.01, f"\nInput: Staff, 5hrs, Weekend=Yes\nExpected: {expected_pay}, Got: {overtime_pay}"

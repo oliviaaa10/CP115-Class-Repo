@@ -54,7 +54,7 @@ def test_admission_decisions(exercise_path, gpa, score, extracurricular, intervi
     
     admission_status = extract_admission_status(output)
     
-    assert admission_status == expected_status, f"Expected {expected_status} but got {admission_status}"
+    assert admission_status == expected_status, f"\nInput: GPA={gpa}, Score={score}, Activities={extracurricular}, Interview={interview}\nExpected: {expected_status}, Got: {admission_status}"
 
 def test_boundary_requirements(exercise_path):
     """Test boundary conditions for admission requirements"""
@@ -62,10 +62,10 @@ def test_boundary_requirements(exercise_path):
     inputs = "3.0\n1200\n1\nYes\n"  # All minimum requirements
     output = run_exercise(exercise_path, inputs)
     status = extract_admission_status(output)
-    assert status == "Accepted", "Minimum requirements should be accepted"
+    assert status == "Accepted", f"\nInput: GPA=3.0, Score=1200, Activities=1, Interview=Yes\nExpected: Accepted, Got: {status}"
     
     # Just below boundaries should fail those requirements
     inputs = "2.9\n1199\n0\nNo\n"  # All below requirements
     output = run_exercise(exercise_path, inputs)
     status = extract_admission_status(output)
-    assert status == "Rejected", "Below minimum requirements should be rejected"
+    assert status == "Rejected", f"\nInput: GPA=2.9, Score=1199, Activities=0, Interview=No\nExpected: Rejected, Got: {status}"

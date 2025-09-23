@@ -56,7 +56,7 @@ def test_license_classification(exercise_path, age, vision, written, driving, me
     
     license_class = extract_license_class(output)
     
-    assert license_class == expected_class, f"Expected {expected_class} but got {license_class}"
+    assert license_class == expected_class, f"\nInput: Age={age}, Vision={vision}, Written={written}, Driving={driving}, Medical={medical}\nExpected: {expected_class}, Got: {license_class}"
 
 def test_age_requirements(exercise_path):
     """Test age requirements for different license classes"""
@@ -64,13 +64,13 @@ def test_age_requirements(exercise_path):
     inputs = "21\nPass\n80\n85\nPass\n"
     output = run_exercise(exercise_path, inputs)
     license_class = extract_license_class(output)
-    assert license_class == "Class A (Commercial)", "Age 21+ with all requirements should get Class A"
+    assert license_class == "Class A (Commercial)", f"\nInput: Age=21, Vision=Pass, Written=80, Driving=85, Medical=Pass\nExpected: Class A (Commercial), Got: {license_class}"
     
     # Age 18-20 with first 4 requirements = Class B
     inputs = "20\nPass\n80\n85\nFail\n"
     output = run_exercise(exercise_path, inputs)
     license_class = extract_license_class(output)
-    assert license_class == "Class B (Regular)", "Age 18-20 should get Class B with first 4 requirements"
+    assert license_class == "Class B (Regular)", f"\nInput: Age=20, Vision=Pass, Written=80, Driving=85, Medical=Fail\nExpected: Class B (Regular), Got: {license_class}"
 
 def test_test_score_boundaries(exercise_path):
     """Test written and driving test score boundaries"""
@@ -78,10 +78,10 @@ def test_test_score_boundaries(exercise_path):
     inputs = "25\nPass\n80\n85\nPass\n"
     output = run_exercise(exercise_path, inputs)
     license_class = extract_license_class(output)
-    assert license_class == "Class A (Commercial)", "Scores at boundaries should pass"
+    assert license_class == "Class A (Commercial)", f"\nInput: Age=25, Vision=Pass, Written=80, Driving=85, Medical=Pass\nExpected: Class A (Commercial), Got: {license_class}"
     
     # Below boundaries should fail
     inputs = "25\nPass\n79\n84\nPass\n"
     output = run_exercise(exercise_path, inputs)
     license_class = extract_license_class(output)
-    assert license_class == "Restricted License", "Scores below boundaries should result in restricted license"
+    assert license_class == "Restricted License", f"\nInput: Age=25, Vision=Pass, Written=79, Driving=84, Medical=Pass\nExpected: Restricted License, Got: {license_class}"
