@@ -1,66 +1,89 @@
-import pytest
+import subprocess
 import sys
-from io import StringIO
+import os
 
-def run_exercise(input_values):
-    """Helper function to run exercise with given inputs and capture output"""
-    input_stream = StringIO('\n'.join(input_values))
-    output_stream = StringIO()
+def run_exercise5(*inputs):
+    """Run exercise5.py with given inputs and return output lines."""
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    script_path = os.path.join(script_dir, 'exercise5.py')
 
-    original_stdin = sys.stdin
-    original_stdout = sys.stdout
+    input_data = '\n'.join(str(x) for x in inputs) + '\n'
 
-    sys.stdin = input_stream
-    sys.stdout = output_stream
+    result = subprocess.run([sys.executable, script_path],
+                          input=input_data, text=True, capture_output=True)
 
-    try:
-        with open('labs/lab13/exercise5/exercise5.py', 'r') as f:
-            code = f.read()
-        exec(code, {'__name__': '__main__'})
-    finally:
-        sys.stdin = original_stdin
-        sys.stdout = original_stdout
+    if result.returncode != 0:
+        raise Exception(f"Script failed: {result.stderr}")
 
-    return output_stream.getvalue().strip().split('\n')
+    lines = result.stdout.strip().split('\n')
+    return lines[0], lines[1]
 
 def test_all_valid_withdrawals():
     """Test with all valid withdrawals"""
-    result = run_exercise(['20', '40', '100', '0'])
-    assert result[0] == '3', "Should count 3 valid withdrawals"
-    assert result[1] == '160', "Total should be 160"
+    inputs = [20, 40, 100, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '3', f"Input: {inputs} | Expected: 3 | Got: {count}"
+    assert total == '160', f"Input: {inputs} | Expected: 160 | Got: {total}"
 
 def test_skip_below_minimum():
     """Test skipping amounts below $20"""
-    result = run_exercise(['10', '20', '40', '0'])
-    assert result[0] == '2', "Should count only 2 valid withdrawals"
-    assert result[1] == '60', "Total should be 60"
+    inputs = [10, 20, 40, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '2', f"Input: {inputs} | Expected: 2 | Got: {count}"
+    assert total == '60', f"Input: {inputs} | Expected: 60 | Got: {total}"
 
 def test_skip_above_maximum():
     """Test skipping amounts above $500"""
-    result = run_exercise(['600', '100', '200', '0'])
-    assert result[0] == '2', "Should count only 2 valid withdrawals"
-    assert result[1] == '300', "Total should be 300"
+    inputs = [600, 100, 200, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '2', f"Input: {inputs} | Expected: 2 | Got: {count}"
+    assert total == '300', f"Input: {inputs} | Expected: 300 | Got: {total}"
 
 def test_skip_not_multiples_of_20():
     """Test skipping amounts not multiples of 20"""
-    result = run_exercise(['25', '20', '35', '40', '60', '0'])
-    assert result[0] == '3', "Should count only 3 valid withdrawals (20, 40, 60)"
-    assert result[1] == '120', "Total should be 120"
+    inputs = [25, 20, 35, 40, 60, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '3', f"Input: {inputs} | Expected: 3 | Got: {count}"
+    assert total == '120', f"Input: {inputs} | Expected: 120 | Got: {total}"
 
 def test_maximum_valid_withdrawal():
     """Test maximum valid withdrawal of $500"""
-    result = run_exercise(['500', '100', '0'])
-    assert result[0] == '2', "Should count 2 valid withdrawals"
-    assert result[1] == '600', "Total should be 600"
+    inputs = [500, 100, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '2', f"Input: {inputs} | Expected: 2 | Got: {count}"
+    assert total == '600', f"Input: {inputs} | Expected: 600 | Got: {total}"
 
 def test_only_invalid_withdrawals():
     """Test with only invalid withdrawals"""
-    result = run_exercise(['15', '505', '35', '0'])
-    assert result[0] == '0', "Should count 0 valid withdrawals"
-    assert result[1] == '0', "Total should be 0"
+    inputs = [15, 505, 35, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '0', f"Input: {inputs} | Expected: 0 | Got: {count}"
+    assert total == '0', f"Input: {inputs} | Expected: 0 | Got: {total}"
 
 def test_mixed_valid_invalid():
     """Test with mixed valid and invalid amounts"""
-    result = run_exercise(['15', '20', '600', '40', '25', '60', '0'])
-    assert result[0] == '3', "Should count 3 valid withdrawals"
-    assert result[1] == '120', "Total should be 120"
+    inputs = [15, 20, 600, 40, 25, 60, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '3', f"Input: {inputs} | Expected: 3 | Got: {count}"
+    assert total == '120', f"Input: {inputs} | Expected: 120 | Got: {total}"
+
+def test_minimum_withdrawal():
+    """Test minimum valid withdrawal of $20"""
+    inputs = [20, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '1', f"Input: {inputs} | Expected: 1 | Got: {count}"
+    assert total == '20', f"Input: {inputs} | Expected: 20 | Got: {total}"
+
+def test_boundary_values():
+    """Test boundary values 20 and 500"""
+    inputs = [20, 500, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '2', f"Input: {inputs} | Expected: 2 | Got: {count}"
+    assert total == '520', f"Input: {inputs} | Expected: 520 | Got: {total}"
+
+def test_all_multiples_of_20():
+    """Test all multiples of 20 in range"""
+    inputs = [60, 80, 100, 120, 0]
+    count, total = run_exercise5(*inputs)
+    assert count == '4', f"Input: {inputs} | Expected: 4 | Got: {count}"
+    assert total == '360', f"Input: {inputs} | Expected: 360 | Got: {total}"
